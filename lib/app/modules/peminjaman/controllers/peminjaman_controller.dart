@@ -1,4 +1,5 @@
 import 'package:as_lib/app/modules/cart/controllers/cart_controller.dart';
+import 'package:as_lib/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:as_lib/app/modules/dashboard/views/your_loan_view.dart';
 import 'package:as_lib/app/utils/api.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,8 @@ class PeminjamanController extends GetxController {
         );
 
         cartController.getCart(); // 🔄 Refresh cart setelah peminjaman
-        Get.offAll(() => YourLoanView()); // 🚀 Pindah ke halaman peminjaman!
+       DashboardController dashboardController = Get.find();
+        dashboardController.changeIndex(1); // 1 = Index dari YourLoanView
       } else {
         String errorMessage = response.body['message'] ?? "Terjadi kesalahan";
         Get.snackbar(

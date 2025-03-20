@@ -108,24 +108,30 @@ class YourLoanView extends GetView {
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
                           onPressed: () {
-                            // Navigasi ke halaman Detail Pengembalian saat tombol ditekan
                             Get.to(
                               () => DetailPengembalianView(),
                               arguments: {
                                 'no_peminjaman': peminjaman.noPeminjaman,
-                                'tanggal_pinjam': peminjaman.tanggalPinjam,
-                                'batas_pinjam': peminjaman.batasPinjam,
+                                'jumlah_pinjam': peminjaman.peminjamanDetails!
+                                    .fold(
+                                      0,
+                                      (sum, detail) =>
+                                          sum + (detail.jumlahPinjam ?? 0),
+                                    ),
                                 'buku_dipinjam':
                                     peminjaman.peminjamanDetails!.map((detail) {
                                       return {
+                                        'id': detail.buku?.id ?? 0,
                                         'judul':
                                             detail.buku?.judul ??
                                             "Judul tidak tersedia",
+                                        'jumlah': detail.jumlahPinjam ?? 0,
                                       };
                                     }).toList(),
                               },
                             );
                           },
+
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
                             padding: const EdgeInsets.symmetric(
