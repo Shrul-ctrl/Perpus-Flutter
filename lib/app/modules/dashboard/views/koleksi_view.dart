@@ -1,4 +1,4 @@
-import 'package:as_lib/app/modules/dashboard/controllers/dashboard_controller.dart';
+import 'package:as_lib/app/modules/koleksi/controllers/koleksi_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -6,7 +6,7 @@ import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 class KoleksiView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    DashboardController controller = Get.put(DashboardController());
+    KoleksiController controller = Get.put(KoleksiController());
 
     // Panggil API untuk mengambil koleksi sesuai user login
     controller.getKoleksiBuku();

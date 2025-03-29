@@ -11,6 +11,7 @@ abstract class Routes {
   static const CART = _Paths.CART;
   static const PEMINJAMAN = _Paths.PEMINJAMAN;
   static const PENGEMBALIAN = _Paths.PENGEMBALIAN;
+  static const KOLEKSI = _Paths.KOLEKSI;
 }
 
 abstract class _Paths {
@@ -23,4 +24,5 @@ abstract class _Paths {
   static const CART = '/cart';
   static const PEMINJAMAN = '/peminjaman';
   static const PENGEMBALIAN = '/pengembalian';
+  static const KOLEKSI = '/koleksi';
 }

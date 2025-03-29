@@ -31,14 +31,13 @@ class DashboardController extends GetxController {
     return BukuResponse.fromJson(response.body);
   }
 
-
   // --- KOLEKSI SECTION ---
-  var koleksiBuku = <Kolekasis>[].obs;
-  var isLoadingKoleksi = false.obs;
+  var riwayatbuku = <Pengembalians>[].obs;
+  var isLoadingKriwayatbuku = false.obs;
 
-  Future<void> getKoleksiBuku() async {
+  Future<void> getriwayatbuku() async {
     try {
-      isLoadingKoleksi.value = true;
+      isLoadingKriwayatbuku.value = true;
       print("Token saat ini: $token"); // Debugging, cek token
 
       final response = await _getConnect.get(
@@ -48,36 +47,21 @@ class DashboardController extends GetxController {
       );
 
       if (response.status.isOk) {
-        final koleksiResponse = KoleksiResponse.fromJson(response.body);
-        koleksiBuku.value = koleksiResponse.kolekasis ?? [];
+        final pengembalianResponse = PengembalianResponse.fromJson(
+          response.body,
+        );
+        riwayatbuku.value = pengembalianResponse.pengembalians ?? [];
       } else {
-        Get.snackbar("Error", "Gagal mengambil data cart");
+        Get.snackbar("Error", "Gagal mengambil data carts");
       }
     } catch (e) {
       Get.snackbar("Error", "Terjadi kesalahan: $e");
     } finally {
-      isLoadingKoleksi.value = false;
+      isLoadingKriwayatbuku.value = false;
     }
   }
 
-  void removeFromKoleksi(int id) async {
-    try {
-      final response = await _getConnect.delete(
-        "${BaseUrl.koleksi}/$id",
-        headers: {'Authorization': "Bearer $token"},
-      );
-
-      if (response.status.isOk) {
-        koleksiBuku.removeWhere((item) => item.id == id);
-        Get.snackbar("Sukses", "Buku dihapus dari keranjang");
-        await getKoleksiBuku(); // Ambil ulang data cart agar tetap sinkron
-      } else {
-        Get.snackbar("Error", "Gagal menghapus buku dari keranjang");
-      }
-    } catch (e) {
-      Get.snackbar("Error", "Terjadi kesalahan: $e");
-    }
-  }
+ 
 
   // --- PEMINJAMAN SECTION ---
   var peminjaman = <Peminjamans>[].obs;
@@ -151,6 +135,8 @@ class DashboardController extends GetxController {
     getBuku();
     getPeminjaman();
     getPengembalian();
+    // getKoleksiBuku();
+    // getriwayatbuku();
     super.onInit();
   }
 }

@@ -19,6 +19,9 @@ class BaseUrl {
   static String deletecart = 'http://192.168.1.7:8000/api/cart/delete';
 
   static String koleksi = 'http://192.168.1.7:8000/api/koleksi';
+  static String addkoleksi = 'http://192.168.1.7:8000/api/koleksi/create';
+  static String deletekoleksi = 'http://192.168.1.7:8000/api/koleksi/delete';
+
   static String riwayat = 'http://192.168.1.7:8000/api/riwayat';
 }
 

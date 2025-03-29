@@ -1,5 +1,4 @@
 import 'package:as_lib/app/modules/dashboard/views/koleksi_view.dart';
-import 'package:as_lib/app/modules/dashboard/views/riwayat_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:as_lib/app/modules/profile/controllers/profile_controller.dart';
@@ -135,30 +134,30 @@ class ProfileView extends StatelessWidget {
                             ),
 
                             // Tombol Riwayat
-                            Column(
-                              children: [
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.history,
-                                    color: Colors.green,
-                                    size: 32,
-                                  ),
-                                  onPressed: () {
-                                    Get.to(
-                                      () => RiwayatView(),
-                                    ); // Navigasi ke halaman riwayat
-                                  },
-                                ),
-                                const Text(
-                                  "Riwayat",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
-                            ),
+                            // Column(
+                            //   children: [
+                            //     IconButton(
+                            //       icon: Icon(
+                            //         Icons.history,
+                            //         color: Colors.green,
+                            //         size: 32,
+                            //       ),
+                            //       onPressed: () {
+                            //         Get.to(
+                            //           () => RiwayatView(),
+                            //         ); // Navigasi ke halaman riwayat
+                            //       },
+                            //     ),
+                            //     const Text(
+                            //       "Riwayat",
+                            //       style: TextStyle(
+                            //         fontSize: 12,
+                            //         fontWeight: FontWeight.bold,
+                            //         color: Colors.grey,
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
                           ],
                         ),
                       ],

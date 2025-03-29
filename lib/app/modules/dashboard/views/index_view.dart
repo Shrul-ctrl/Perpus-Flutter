@@ -2,8 +2,10 @@ import 'package:as_lib/app/data/buku_response.dart';
 import 'package:as_lib/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:as_lib/app/modules/dashboard/views/book_detail_view.dart';
 import 'package:as_lib/app/modules/dashboard/views/cart_view.dart';
+import 'package:as_lib/app/modules/koleksi/controllers/koleksi_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
@@ -13,7 +15,13 @@ class IndexView extends GetView {
   @override
   Widget build(BuildContext context) {
     DashboardController controller = Get.put(DashboardController());
-
+    KoleksiController controllerkoleksi = Get.put(KoleksiController());
+    final String? idUser = GetStorage().read('token');
+    if (idUser == null) {
+      return Scaffold(
+        body: Center(child: Text("User tidak ditemukan, silakan login ulang.")),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Daftar Buku'),
@@ -100,7 +108,10 @@ class IndexView extends GetView {
                                     color: Colors.red,
                                   ),
                                   onPressed: () {
-                                    // Tambahkan aksi like di sini
+                                    controllerkoleksi.addKoleksi(
+                                      idUser,
+                                      buku.id.toString(),
+                                    );
                                   },
                                 ),
                               ),
@@ -152,4 +163,3 @@ class IndexView extends GetView {
     );
   }
 }
-
