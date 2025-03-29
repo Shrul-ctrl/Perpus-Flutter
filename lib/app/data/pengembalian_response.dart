@@ -39,8 +39,7 @@ class Pengembalians {
   Null? alasanKembali;
   String? createdAt;
   String? updatedAt;
-  User? user;
-  Peminjaman? peminjaman;
+  List<PengembalianDetails>? pengembalianDetails;
 
   Pengembalians(
       {this.id,
@@ -53,8 +52,7 @@ class Pengembalians {
       this.alasanKembali,
       this.createdAt,
       this.updatedAt,
-      this.user,
-      this.peminjaman});
+      this.pengembalianDetails});
 
   Pengembalians.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -67,10 +65,12 @@ class Pengembalians {
     alasanKembali = json['alasan_kembali'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    peminjaman = json['peminjaman'] != null
-        ? new Peminjaman.fromJson(json['peminjaman'])
-        : null;
+    if (json['pengembalian_details'] != null) {
+      pengembalianDetails = <PengembalianDetails>[];
+      json['pengembalian_details'].forEach((v) {
+        pengembalianDetails!.add(new PengembalianDetails.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -85,97 +85,119 @@ class Pengembalians {
     data['alasan_kembali'] = this.alasanKembali;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
-    }
-    if (this.peminjaman != null) {
-      data['peminjaman'] = this.peminjaman!.toJson();
+    if (this.pengembalianDetails != null) {
+      data['pengembalian_details'] =
+          this.pengembalianDetails!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class User {
+class PengembalianDetails {
   int? id;
-  String? name;
-  int? isActivated;
-  String? email;
-  Null? emailVerifiedAt;
-  String? isAdmin;
+  int? idPengembalian;
+  int? idBuku;
+  int? jumlahKembali;
+  int? bukuHilang;
+  int? bukuRusak;
+  String? dendaHilang;
+  String? dendaRusak;
+  String? dendaKeterlambatan;
   String? createdAt;
   String? updatedAt;
+  Buku? buku;
 
-  User(
+  PengembalianDetails(
       {this.id,
-      this.name,
-      this.isActivated,
-      this.email,
-      this.emailVerifiedAt,
-      this.isAdmin,
+      this.idPengembalian,
+      this.idBuku,
+      this.jumlahKembali,
+      this.bukuHilang,
+      this.bukuRusak,
+      this.dendaHilang,
+      this.dendaRusak,
+      this.dendaKeterlambatan,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.buku});
 
-  User.fromJson(Map<String, dynamic> json) {
+  PengembalianDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
-    isActivated = json['is_activated'];
-    email = json['email'];
-    emailVerifiedAt = json['email_verified_at'];
-    isAdmin = json['isAdmin'];
+    idPengembalian = json['id_pengembalian'];
+    idBuku = json['id_buku'];
+    jumlahKembali = json['jumlah_kembali'];
+    bukuHilang = json['buku_hilang'];
+    bukuRusak = json['buku_rusak'];
+    dendaHilang = json['denda_hilang'];
+    dendaRusak = json['denda_rusak'];
+    dendaKeterlambatan = json['denda_keterlambatan'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    buku = json['buku'] != null ? new Buku.fromJson(json['buku']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['name'] = this.name;
-    data['is_activated'] = this.isActivated;
-    data['email'] = this.email;
-    data['email_verified_at'] = this.emailVerifiedAt;
-    data['isAdmin'] = this.isAdmin;
+    data['id_pengembalian'] = this.idPengembalian;
+    data['id_buku'] = this.idBuku;
+    data['jumlah_kembali'] = this.jumlahKembali;
+    data['buku_hilang'] = this.bukuHilang;
+    data['buku_rusak'] = this.bukuRusak;
+    data['denda_hilang'] = this.dendaHilang;
+    data['denda_rusak'] = this.dendaRusak;
+    data['denda_keterlambatan'] = this.dendaKeterlambatan;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    if (this.buku != null) {
+      data['buku'] = this.buku!.toJson();
+    }
     return data;
   }
 }
 
-class Peminjaman {
+class Buku {
   int? id;
-  String? noPeminjaman;
-  int? idUser;
-  int? idStaff;
-  int? idSiswa;
-  String? tanggalPinjam;
-  String? batasPinjam;
-  String? statusPinjam;
-  Null? alasanPinjam;
+  String? judul;
+  int? isbn;
+  int? harga;
+  String? deskripsi;
+  String? foto;
+  int? idPenulis;
+  int? idPenerbit;
+  int? idKategori;
+  String? tahunTerbit;
+  int? jumlahBuku;
   String? createdAt;
   String? updatedAt;
 
-  Peminjaman(
+  Buku(
       {this.id,
-      this.noPeminjaman,
-      this.idUser,
-      this.idStaff,
-      this.idSiswa,
-      this.tanggalPinjam,
-      this.batasPinjam,
-      this.statusPinjam,
-      this.alasanPinjam,
+      this.judul,
+      this.isbn,
+      this.harga,
+      this.deskripsi,
+      this.foto,
+      this.idPenulis,
+      this.idPenerbit,
+      this.idKategori,
+      this.tahunTerbit,
+      this.jumlahBuku,
       this.createdAt,
       this.updatedAt});
 
-  Peminjaman.fromJson(Map<String, dynamic> json) {
+  Buku.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    noPeminjaman = json['no_peminjaman'];
-    idUser = json['id_user'];
-    idStaff = json['id_staff'];
-    idSiswa = json['id_siswa'];
-    tanggalPinjam = json['tanggal_pinjam'];
-    batasPinjam = json['batas_pinjam'];
-    statusPinjam = json['status_pinjam'];
-    alasanPinjam = json['alasan_pinjam'];
+    judul = json['judul'];
+    isbn = json['isbn'];
+    harga = json['harga'];
+    deskripsi = json['deskripsi'];
+    foto = json['foto'];
+    idPenulis = json['id_penulis'];
+    idPenerbit = json['id_penerbit'];
+    idKategori = json['id_kategori'];
+    tahunTerbit = json['tahun_terbit'];
+    jumlahBuku = json['jumlah_buku'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -183,14 +205,16 @@ class Peminjaman {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['no_peminjaman'] = this.noPeminjaman;
-    data['id_user'] = this.idUser;
-    data['id_staff'] = this.idStaff;
-    data['id_siswa'] = this.idSiswa;
-    data['tanggal_pinjam'] = this.tanggalPinjam;
-    data['batas_pinjam'] = this.batasPinjam;
-    data['status_pinjam'] = this.statusPinjam;
-    data['alasan_pinjam'] = this.alasanPinjam;
+    data['judul'] = this.judul;
+    data['isbn'] = this.isbn;
+    data['harga'] = this.harga;
+    data['deskripsi'] = this.deskripsi;
+    data['foto'] = this.foto;
+    data['id_penulis'] = this.idPenulis;
+    data['id_penerbit'] = this.idPenerbit;
+    data['id_kategori'] = this.idKategori;
+    data['tahun_terbit'] = this.tahunTerbit;
+    data['jumlah_buku'] = this.jumlahBuku;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;

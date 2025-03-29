@@ -75,7 +75,7 @@ class ProfileView extends StatelessWidget {
 
                 // Dropdown Icon
                 const SizedBox(height: 10),
-                const Icon(Icons.keyboard_arrow_down, color: Colors.white),
+                const Icon(Icons.keyboard_arrow_down, color: Colors.green),
 
                 // Detail Profil
                 Expanded(

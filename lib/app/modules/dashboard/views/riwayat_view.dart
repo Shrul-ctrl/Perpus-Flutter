@@ -17,23 +17,14 @@ class RiwayatView extends GetView<DashboardController> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Obx(() {
-          if (controller.isLoadingKriwayatbuku.value) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (controller.riwayatbuku.isEmpty) {
-            return const Center(child: Text("Tidak ada riwayat peminjaman"));
-          }
-
+        
           return ListView.builder(
-            itemCount: controller.riwayatbuku.length,
+          
             itemBuilder: (context, index) {
-              final riwayat = controller.riwayatbuku[index];
+
               // final peminjaman = riwayat.peminjaman;
 
-              if (riwayat.statusKembali != "disetujui") {
-                return const SizedBox(); // Jika status bukan "dikembalikan", tidak ditampilkan
-              }
+             
 
               return Card(
                 elevation: 3,
@@ -44,13 +35,7 @@ class RiwayatView extends GetView<DashboardController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 8),
-                      Text(
-                        "Tanggal Pengembalian: ${riwayat.tanggalPenggembalian ?? "Belum dikembalikan"}",
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
+          
                       const Divider(),
                       const Text(
                         "Buku yang Dikembalikan:",

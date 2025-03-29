@@ -31,35 +31,6 @@ class DashboardController extends GetxController {
     return BukuResponse.fromJson(response.body);
   }
 
-  // --- KOLEKSI SECTION ---
-  var riwayatbuku = <Pengembalians>[].obs;
-  var isLoadingKriwayatbuku = false.obs;
-
-  Future<void> getriwayatbuku() async {
-    try {
-      isLoadingKriwayatbuku.value = true;
-      print("Token saat ini: $token"); // Debugging, cek token
-
-      final response = await _getConnect.get(
-        BaseUrl.koleksi,
-        headers: {'Authorization': "Bearer $token"},
-        contentType: "application/json",
-      );
-
-      if (response.status.isOk) {
-        final pengembalianResponse = PengembalianResponse.fromJson(
-          response.body,
-        );
-        riwayatbuku.value = pengembalianResponse.pengembalians ?? [];
-      } else {
-        Get.snackbar("Error", "Gagal mengambil data carts");
-      }
-    } catch (e) {
-      Get.snackbar("Error", "Terjadi kesalahan: $e");
-    } finally {
-      isLoadingKriwayatbuku.value = false;
-    }
-  }
 
   // --- KOLEKSI SECTION ---
   var koleksiBuku = <Kolekasis>[].obs;
@@ -121,6 +92,21 @@ class DashboardController extends GetxController {
     peminjaman.value = peminjamanResponse.peminjamans ?? [];
   }
 
+  var pengembalian = <Pengembalians>[].obs;
+
+  Future<void> getPengembalian() async {
+    final response = await _getConnect.get(
+      BaseUrl.pengembalian,
+      headers: {'Authorization': "Bearer $token"},
+      contentType: "application/json",
+    );
+
+    print("Response Data: ${response.body}"); // Tambahkan ini untuk debug
+
+    final pengembalianResponse = PengembalianResponse.fromJson(response.body);
+    pengembalian.value = pengembalianResponse.pengembalians ?? [];
+  }
+
   void logOut() async {
     final response = await _getConnect.post(
       BaseUrl.logout,
@@ -164,8 +150,7 @@ class DashboardController extends GetxController {
   void onInit() {
     getBuku();
     getPeminjaman();
-    // getKoleksiBuku();
-    // getriwayatbuku();
+    getPengembalian();
     super.onInit();
   }
 }

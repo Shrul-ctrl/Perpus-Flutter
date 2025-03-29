@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class PengembalianController extends GetxController {
+  final box = GetStorage();
   var isLoading = false.obs;
   var jumlahKembali = <int>[].obs;
   var bukuHilang = <int>[].obs;
@@ -37,28 +39,54 @@ class PengembalianController extends GetxController {
 
   Future<void> addPengembalian() async {
     isLoading.value = true;
+    String? token = box.read('token');
     String url = 'http://192.168.1.7:8000/api/pengembalian/create';
 
     Map<String, dynamic> body = {
-      "id_peminjaman": noPeminjaman.value,
+      "no_peminjaman":
+          noPeminjaman.value, // Kirim string langsung, bukan ID angka
       "id_buku": bukuDipinjam.map((buku) => buku['id']).toList(),
-      "jumlah_kembali": jumlahKembali.toList(),
-      "buku_hilang": bukuHilang.toList(),
-      "buku_rusak": bukuRusak.toList(),
-      "denda_hilang": bukuHilang.map((hilang) => hilang > 0 ? 1 : 0).toList(),
-      "denda_rusak": bukuRusak.map((rusak) => rusak > 0 ? 0.5 : 0).toList(),
+      "jumlah_kembali": {
+        for (int i = 0; i < bukuDipinjam.length; i++)
+          bukuDipinjam[i]['id'].toString(): jumlahKembali[i],
+      },
+      "buku_hilang": {
+        for (int i = 0; i < bukuDipinjam.length; i++)
+          bukuDipinjam[i]['id'].toString(): bukuHilang[i],
+      },
+      "buku_rusak": {
+        for (int i = 0; i < bukuDipinjam.length; i++)
+          bukuDipinjam[i]['id'].toString(): bukuRusak[i],
+      },
+      "denda_hilang": {
+        for (int i = 0; i < bukuDipinjam.length; i++)
+          bukuDipinjam[i]['id'].toString():
+              bukuHilang[i] > 0 ? bukuDipinjam[i]['harga'] : 0,
+      },
+      "denda_rusak": {
+        for (int i = 0; i < bukuDipinjam.length; i++)
+          bukuDipinjam[i]['id'].toString():
+              bukuRusak[i] > 0 ? (bukuDipinjam[i]['harga'] * 0.5) : 0,
+      },
     };
 
     try {
+      print("Request Body: ${json.encode(body)}"); // Debug log sebelum request
       var response = await http.post(
         Uri.parse(url),
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          'Authorization': "Bearer $token",
+          'Accept': "application/json",
+          'Content-Type': "application/json",
+        },
         body: json.encode(body),
       );
 
-      var data = json.decode(response.body);
+      print("Response Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
 
       if (response.statusCode == 201) {
+        var data = json.decode(response.body);
         Get.snackbar(
           "Sukses",
           data['message'],
@@ -67,17 +95,27 @@ class PengembalianController extends GetxController {
         );
         Get.offAllNamed('/home');
       } else {
-        Get.snackbar(
-          "Error",
-          data['message'],
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
+        try {
+          var errorData = json.decode(response.body);
+          Get.snackbar(
+            "Error",
+            errorData['message'] ?? 'Terjadi kesalahan',
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
+          );
+        } catch (e) {
+          Get.snackbar(
+            "Error",
+            "Kesalahan server, cek kembali API.",
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
+          );
+        }
       }
     } catch (e) {
       Get.snackbar(
         "Error",
-        "Gagal menghubungi server",
+        "Gagal menghubungi server: $e",
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );

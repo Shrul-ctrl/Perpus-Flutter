@@ -1,10 +1,10 @@
-import 'package:as_lib/app/modules/cart/views/cart_view.dart';
-import 'package:as_lib/app/modules/dashboard/controllers/dashboard_controller.dart';
-import 'package:as_lib/app/modules/dashboard/views/detail_pengembalian_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:as_lib/app/modules/dashboard/controllers/dashboard_controller.dart';
+import 'package:as_lib/app/modules/dashboard/views/daf_kembali_view.dart';
+import 'package:as_lib/app/modules/dashboard/views/daf_pinjam_view.dart';
 
-class YourLoanView extends GetView {
+class YourLoanView extends GetView<DashboardController> {
   const YourLoanView({super.key});
 
   @override
@@ -13,145 +13,152 @@ class YourLoanView extends GetView {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Daftar Buku'),
+        title: const Text(
+          'Riwayat Peminjaman & Pengembalian',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.shopping_cart), // Icon Cart
-            onPressed: () {
-              Get.to(() => CartView()); // Pindah ke halaman Cart saat ditekan
-            },
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Obx(() {
-          if (controller.peminjaman.isEmpty) {
-            return const Center(child: Text("Tidak ada data peminjaman"));
-          }
-          return ListView.builder(
-            itemCount: controller.peminjaman.length,
-            itemBuilder: (context, index) {
-              final peminjaman = controller.peminjaman[index];
+        child: Column(
+          children: [
+            // 🔹 2 Card (Peminjaman & Pengembalian)
+            Row(
+              children: [
+                _buildCard("Peminjaman", Icons.book, Colors.blue, () {
+                  Get.to(() => const DafPinjamView());
+                }),
+                const SizedBox(width: 10),
+                _buildCard("Pengembalian", Icons.history, Colors.green, () {
+                  Get.to(() => const DafKembaliView());
+                }),
+              ],
+            ),
+            const SizedBox(height: 20),
 
-              return Card(
-                elevation: 3,
-                margin: const EdgeInsets.symmetric(vertical: 8),
-                child: Column(
+            // 🔹 Daftar Peminjaman & Pengembalian Terbaru (Limit 5)
+            Expanded(
+              child: Obx(() {
+                return ListView(
                   children: [
-                    ExpansionTile(
-                      title: Text(
-                        "No. Peminjaman: ${peminjaman.noPeminjaman}",
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Status: ${peminjaman.statusPinjam}",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color:
-                                      peminjaman.statusPinjam == "disetujui"
-                                          ? Colors.green
-                                          : Colors.red,
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                "Tanggal Pinjam: ${peminjaman.tanggalPinjam}",
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                              Text(
-                                "Batas Pinjam: ${peminjaman.batasPinjam}",
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                              const Divider(),
-                              const Text(
-                                "Buku yang Dipinjam:",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              ...peminjaman.peminjamanDetails!.map((detail) {
-                                return ListTile(
-                                  title: Text(
-                                    detail.buku?.judul ??
-                                        "Judul tidak tersedia",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                    "Jumlah: ${detail.jumlahPinjam}",
-                                    style: const TextStyle(fontSize: 14),
-                                  ),
-                                );
-                              }).toList(),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Get.to(
-                              () => DetailPengembalianView(),
-                              arguments: {
-                                'no_peminjaman': peminjaman.noPeminjaman,
-                                'jumlah_pinjam': peminjaman.peminjamanDetails!
-                                    .fold(
-                                      0,
-                                      (sum, detail) =>
-                                          sum + (detail.jumlahPinjam ?? 0),
-                                    ),
-                                'buku_dipinjam':
-                                    peminjaman.peminjamanDetails!.map((detail) {
-                                      return {
-                                        'id': detail.buku?.id ?? 0,
-                                        'judul':
-                                            detail.buku?.judul ??
-                                            "Judul tidak tersedia",
-                                        'jumlah': detail.jumlahPinjam ?? 0,
-                                      };
-                                    }).toList(),
-                              },
-                            );
-                          },
-
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 10,
-                            ),
-                          ),
-                          child: const Text(
-                            "Selesai Pinjam",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
+                    _buildLatestList(
+                      "Peminjaman Terbaru",
+                      controller.peminjaman,
+                    )
                   ],
+                );
+              }),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // 🔹 Fungsi untuk membuat Card utama
+  Widget _buildCard(
+    String title,
+    IconData icon,
+    Color color,
+    VoidCallback onTap,
+  ) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Card(
+          elevation: 3,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Icon(icon, size: 40, color: color),
+                const SizedBox(height: 10),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
                 ),
-              );
-            },
-          );
-        }),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // 🔹 Fungsi untuk menampilkan daftar terbaru (Limit 5)
+  Widget _buildLatestList(String title, List<dynamic> data) {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const Divider(),
+            data.isEmpty
+                ? Center(
+                  child: Text(
+                    "Belum ada $title".toLowerCase(),
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                )
+                : Column(
+                  children:
+                      data.take(2).map((item) {
+                        return Card(
+                          margin: const EdgeInsets.symmetric(vertical: 5),
+                          elevation: 1,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: ListTile(
+                            leading: Icon(
+                              title.contains("Peminjaman")
+                                  ? Icons.book
+                                  : Icons.history,
+                              color:
+                                  title.contains("Peminjaman")
+                                      ? Colors.blue
+                                      : Colors.green,
+                            ),
+                            title: Text(
+                              "No: ${item.noPeminjaman ?? '-'}",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Text(
+                              "Status: ${item.statusPinjam ?? item.statusPengembalian ?? '-'}",
+                            ),
+                            onTap: () {
+                              if (title.contains("Pengembalian")) {
+                                Get.to(
+                                  () => DafKembaliView(),
+                                  arguments: {
+                                    'status': item.statusPengembalian ?? '-',
+                                  },
+                                );
+                              } else {
+                                Get.to(() => DafPinjamView());
+                              }
+                            },
+                          ),
+                        );
+                      }).toList(),
+                ),
+          ],
+        ),
       ),
     );
   }

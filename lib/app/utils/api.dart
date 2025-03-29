@@ -7,7 +7,8 @@ class BaseUrl {
   static String deleteBukus = 'http://192.168.1.7:8000/api/buku';
   static String profile = 'http://192.168.1.7:8000/api/profile';
 
-  static String pengembalian = 'http://192.168.1.7:8000/api/pengembalian/create';
+  static String pengembalian = 'http://192.168.1.7:8000/api/pengembalian';
+  static String addpengembalian = 'http://192.168.1.7:8000/api/pengembalian/create';
 
   static String peminjaman = 'http://192.168.1.7:8000/api/peminjaman';
   static String addpeminjaman = 'http://192.168.1.7:8000/api/peminjaman/create';
