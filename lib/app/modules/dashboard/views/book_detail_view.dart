@@ -42,7 +42,8 @@ class BookDetailView extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: Image.network(
-                      'https://picsum.photos/id/${buku.id}/700/300',
+                      'http://127.0.0.1:8000/img/${buku.foto}',
+                      // 'http://192.168.1.7:8000/img/${buku.foto}',
                       fit: BoxFit.cover,
                       height: 250,
                       width: double.infinity,

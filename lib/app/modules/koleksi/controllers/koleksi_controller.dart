@@ -5,20 +5,24 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class KoleksiController extends GetxController {
-  //TODO: Implement KoleksiController
-
-  // --- KOLEKSI SECTION ---
   var selectedIndex = 0.obs;
   final _getConnect = GetConnect();
   final token = GetStorage().read('token');
+
   var koleksiBuku = <Kolekasis>[].obs;
   var isLoadingKoleksi = false.obs;
+  var favoriteBookIds =
+      <int>{}.obs; // Tambahkan untuk menyimpan ID buku yang dikoleksi
+
+  @override
+  void onInit() {
+    super.onInit();
+    getKoleksiBuku(); // Ambil koleksi saat controller diinisialisasi
+  }
 
   Future<void> getKoleksiBuku() async {
     try {
       isLoadingKoleksi.value = true;
-      print("Token saat ini: $token"); // Debugging, cek token
-
       final response = await _getConnect.get(
         BaseUrl.koleksi,
         headers: {'Authorization': "Bearer $token"},
@@ -28,6 +32,13 @@ class KoleksiController extends GetxController {
       if (response.status.isOk) {
         final koleksiResponse = KoleksiResponse.fromJson(response.body);
         koleksiBuku.value = koleksiResponse.kolekasis ?? [];
+
+        // Simpan ID buku yang sudah dikoleksi ke favoriteBookIds
+        favoriteBookIds.value =
+            koleksiBuku
+                .where((e) => e.idBuku != null) // Cegah null
+                .map((e) => e.idBuku!) // Ambil langsung karena sudah int
+                .toSet();
       } else {
         Get.snackbar("Error", "Gagal mengambil data koleksi");
       }
@@ -39,38 +50,37 @@ class KoleksiController extends GetxController {
   }
 
   Future<void> addKoleksi(String idUser, String idBuku) async {
+    int idBukuInt = int.tryParse(idBuku) ?? 0;
+
+    // Cek apakah buku sudah ada di koleksi
+    if (favoriteBookIds.contains(idBukuInt)) {
+      Get.snackbar(
+        "Info",
+        "Buku sudah ada di koleksi Anda!",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return; // Jangan kirim request ke API jika sudah ada
+    }
+
     try {
-      if (token == null) {
-        Get.snackbar("Error", "Token tidak ditemukan.");
-        return;
-      }
-
-      print("Mengirim request ke: ${BaseUrl.addkoleksi}");
-      print("Payload: id_user: $idUser, id_buku: $idBuku");
-
       final response = await _getConnect.post(
         BaseUrl.addkoleksi,
-        {
-          'id_user': idUser,
-          'id_buku': idBuku,
-          'status_disukai': "suka", // Ubah dari 'jumlah_pinjam'
-        },
+        {'id_user': idUser, 'id_buku': idBuku, 'status_disukai': "suka"},
         headers: {
           'Authorization': "Bearer $token",
           'Content-Type': "application/json",
         },
       );
 
-      print("Response Status Code: ${response.statusCode}");
-      print("Response Body: ${response.body}");
-
       if (response.statusCode == 201) {
+        // Tambahkan buku ke koleksi
+        favoriteBookIds.add(idBukuInt);
         Get.snackbar(
-          "Success",
-          "Koleksi berhasil ditambahkan",
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
+          "Sukses",
+          "Buku ditambahkan ke koleksi!",
+          snackPosition: SnackPosition.BOTTOM,
         );
+        await getKoleksiBuku(); // Perbarui daftar koleksi
       } else {
         Get.snackbar(
           "Failed",
@@ -79,7 +89,6 @@ class KoleksiController extends GetxController {
         );
       }
     } catch (e) {
-      print("Error: $e");
       Get.snackbar("Error", "Terjadi kesalahan: $e");
     }
   }
@@ -93,6 +102,7 @@ class KoleksiController extends GetxController {
 
       if (response.status.isOk) {
         koleksiBuku.removeWhere((item) => item.id == id);
+        favoriteBookIds.remove(id); // Hapus dari daftar ID favorit
         Get.snackbar("Sukses", "Buku Batal Dikoleksi");
         await getKoleksiBuku(); // Ambil ulang data koleksi agar tetap sinkron
       } else {

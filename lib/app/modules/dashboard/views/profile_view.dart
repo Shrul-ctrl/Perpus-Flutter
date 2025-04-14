@@ -1,7 +1,7 @@
-import 'package:as_lib/app/modules/dashboard/views/koleksi_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:as_lib/app/modules/profile/controllers/profile_controller.dart';
+import 'package:lottie/lottie.dart';
 
 class ProfileView extends StatelessWidget {
   ProfileView({super.key});
@@ -24,14 +24,29 @@ class ProfileView extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Obx(() {
         if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return Center(
+            child: Lottie.network(
+              'https://lottie.host/132abfce-757b-4136-b131-2ace5cc2304c/X4NlILeIz0.json',
+              repeat: true,
+              width: 100,
+              height: 100,
+              delegates: LottieDelegates(
+                values: [
+                  ValueDelegate.color(
+                    const ['**'],
+                    value: Colors.green,
+                  ),
+                ],
+              ),
+            ),
+          );
         }
 
         final profile = controller.profile.value;
 
         return Stack(
           children: [
-            // Background Lengkung
+            // Background lengkung hijau
             ClipPath(
               clipper: ProfileClipper(),
               child: Container(
@@ -40,45 +55,45 @@ class ProfileView extends StatelessWidget {
               ),
             ),
 
-            // Konten Profil
-            Column(
-              children: [
-                const SizedBox(height: 60),
+            // Konten
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 60),
 
-                // Foto Profil
-                Center(
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.white,
-                        child: CircleAvatar(
-                          radius: 45,
-                          backgroundImage: AssetImage('assets/profile.jpg'),
+                  // Foto profil dan nama
+                  Center(
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.white,
+                          child: CircleAvatar(
+                            radius: 45,
+                            backgroundImage:
+                                AssetImage('assets/profile.jpg'),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        profile.name ?? "-", // Menampilkan nama pengguna
-                        style: const TextStyle(
-                          color:
-                              Colors
-                                  .white, // Warna teks putih agar kontras dengan background
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                        const SizedBox(height: 5),
+                        Text(
+                          profile.name ?? "-",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
 
-                // Dropdown Icon
-                const SizedBox(height: 10),
-                const Icon(Icons.keyboard_arrow_down, color: Colors.green),
+                  const SizedBox(height: 10),
+                  const Center(child: Icon(Icons.keyboard_arrow_down, color: Colors.green)),
 
-                // Detail Profil
-                Expanded(
-                  child: Container(
+                  // Container konten profil
+                  Container(
+                    width: double.infinity,
                     padding: const EdgeInsets.all(20),
                     margin: const EdgeInsets.only(top: 10),
                     decoration: const BoxDecoration(
@@ -91,80 +106,20 @@ class ProfileView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // buildProfileRow("NAME", profile.name ?? "-"),
                         buildProfileRow("EMAIL", profile.email ?? "-"),
+                        buildProfileRow("ALAMAT", profile.siswa?.alamat ?? "-"),
+                        buildProfileRow("NIS", profile.siswa?.nis ?? "-"),
+                        buildProfileRow("KELAS", profile.siswa?.kelas ?? "-"),
                         buildProfileRow(
-                          "LOCATION",
-                          profile.siswa?.alamat ?? "-",
-                        ),
-                        buildProfileRow(
-                          "PHONE NUMBER",
+                          "NOMER TELEPON",
                           profile.siswa?.noHp ?? "-",
                         ),
-                        const SizedBox(height: 10),
-
-                        // Icon Transportasi di Bawah
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            // Tombol Koleksi
-                            Column(
-                              children: [
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.book,
-                                    color: Colors.green,
-                                    size: 32,
-                                  ),
-                                  onPressed: () {
-                                    Get.to(
-                                      () => KoleksiView(),
-                                    ); // Navigasi ke halaman koleksi
-                                  },
-                                ),
-                                const Text(
-                                  "Koleksi",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                            // Tombol Riwayat
-                            // Column(
-                            //   children: [
-                            //     IconButton(
-                            //       icon: Icon(
-                            //         Icons.history,
-                            //         color: Colors.green,
-                            //         size: 32,
-                            //       ),
-                            //       onPressed: () {
-                            //         Get.to(
-                            //           () => RiwayatView(),
-                            //         ); // Navigasi ke halaman riwayat
-                            //       },
-                            //     ),
-                            //     const Text(
-                            //       "Riwayat",
-                            //       style: TextStyle(
-                            //         fontSize: 12,
-                            //         fontWeight: FontWeight.bold,
-                            //         color: Colors.grey,
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
-                          ],
-                        ),
+                        const SizedBox(height: 20),
                       ],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         );
@@ -202,10 +157,12 @@ class ProfileClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    path.lineTo(0, size.height - 100); // Lebih turun agar lebih melengkung
+    path.lineTo(0, size.height - 100);
     path.quadraticBezierTo(
-      size.width / 2, size.height + 10, // Lebih menonjolkan lengkungan
-      size.width, size.height - 100,
+      size.width / 2,
+      size.height + 10,
+      size.width,
+      size.height - 100,
     );
     path.lineTo(size.width, 0);
     path.close();

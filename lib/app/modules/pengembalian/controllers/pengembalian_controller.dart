@@ -40,11 +40,22 @@ class PengembalianController extends GetxController {
   Future<void> addPengembalian() async {
     isLoading.value = true;
     String? token = box.read('token');
-    String url = 'http://192.168.1.7:8000/api/pengembalian/create';
+
+    if (token == null) {
+      Get.snackbar(
+        "Error",
+        "Token tidak ditemukan. Silakan login ulang.",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      Get.offAllNamed('/login'); // arahkan ke login jika token null
+      return;
+    }
+
+    String url = 'http://127.0.0.1:8000/api/pengembalian/create';
 
     Map<String, dynamic> body = {
-      "no_peminjaman":
-          noPeminjaman.value, // Kirim string langsung, bukan ID angka
+      "no_peminjaman": noPeminjaman.value,
       "id_buku": bukuDipinjam.map((buku) => buku['id']).toList(),
       "jumlah_kembali": {
         for (int i = 0; i < bukuDipinjam.length; i++)
@@ -71,7 +82,7 @@ class PengembalianController extends GetxController {
     };
 
     try {
-      print("Request Body: ${json.encode(body)}"); // Debug log sebelum request
+      print("Request Body: ${json.encode(body)}");
       var response = await http.post(
         Uri.parse(url),
         headers: {
@@ -93,7 +104,9 @@ class PengembalianController extends GetxController {
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
-        Get.offAllNamed('/home');
+
+        /// ✅ Navigasi ke DafKembaliView & refresh otomatis
+        Get.offAllNamed('/daf_kembali', arguments: {"refresh": true});
       } else {
         try {
           var errorData = json.decode(response.body);

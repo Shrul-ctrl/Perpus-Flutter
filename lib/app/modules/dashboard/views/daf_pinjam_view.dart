@@ -3,6 +3,7 @@ import 'package:as_lib/app/modules/dashboard/controllers/dashboard_controller.da
 import 'package:as_lib/app/modules/dashboard/views/detail_pengembalian_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class DafPinjamView extends GetView<DashboardController> {
   const DafPinjamView({super.key});
@@ -28,6 +29,21 @@ class DafPinjamView extends GetView<DashboardController> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Obx(() {
+          if (controller.isLoading.value) {
+            return Center(
+              child: Lottie.network(
+                'https://lottie.host/132abfce-757b-4136-b131-2ace5cc2304c/X4NlILeIz0.json',
+                repeat: true,
+                width: 100,
+                height: 100,
+                delegates: LottieDelegates(
+                  values: [
+                    ValueDelegate.color(const ['**'], value: Colors.green),
+                  ],
+                ),
+              ),
+            );
+          }
           if (controller.peminjaman.isEmpty) {
             return _emptyState();
           }

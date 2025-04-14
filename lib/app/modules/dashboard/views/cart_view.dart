@@ -2,6 +2,7 @@ import 'package:as_lib/app/modules/cart/controllers/cart_controller.dart';
 import 'package:as_lib/app/modules/peminjaman/controllers/peminjaman_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class CartView extends StatelessWidget {
   final CartController controller = Get.put(CartController());
@@ -14,7 +15,19 @@ class CartView extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Obx(() {
           if (controller.isLoading.value) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(
+              child: Lottie.network(
+                'https://lottie.host/132abfce-757b-4136-b131-2ace5cc2304c/X4NlILeIz0.json',
+                repeat: true,
+                width: 100,
+                height: 100,
+                delegates: LottieDelegates(
+                  values: [
+                    ValueDelegate.color(const ['**'], value: Colors.green),
+                  ],
+                ),
+              ),
+            );
           }
 
           if (controller.carts.isEmpty) {

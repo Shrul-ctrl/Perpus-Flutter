@@ -43,9 +43,18 @@ class IndexView extends GetView {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
                 child: Lottie.network(
-                  'https://gist.githubusercontent.com/olipiskandar/4f08ac098c81c32ebc02c55f5b11127b/raw/6e21dc500323da795e8b61b5558748b5c7885157/loading.json',
+                  'https://lottie.host/132abfce-757b-4136-b131-2ace5cc2304c/X4NlILeIz0.json',
                   repeat: true,
-                  width: MediaQuery.of(context).size.width / 1,
+                  width: 100, // Ukuran kecil, bisa kamu sesuaikan
+                  height: 100,
+                  delegates: LottieDelegates(
+                    values: [
+                      ValueDelegate.color(
+                        const ['**'], // Bintang dua untuk semua elemen
+                        value: Colors.green,
+                      ),
+                    ],
+                  ),
                 ),
               );
             }
@@ -83,13 +92,14 @@ class IndexView extends GetView {
                                 topRight: Radius.circular(12),
                               ),
                               child: Image.network(
-                                'https://picsum.photos/id/${buku.id}/200/300',
+                                'http://127.0.0.1:8000/img/${buku.foto}',
+                                // 'http://192.168.1.7:8000/img/${buku.foto}',
                                 fit: BoxFit.cover,
                                 height: 250,
                                 width: double.infinity,
                                 errorBuilder: (context, error, stackTrace) {
                                   return const SizedBox(
-                                    height: 150,
+                                    height: 180,
                                     child: Center(
                                       child: Text('Image not found'),
                                     ),
@@ -97,25 +107,39 @@ class IndexView extends GetView {
                                 },
                               ),
                             ),
-                            Positioned(
-                              top: 8,
-                              right: 8,
-                              child: CircleAvatar(
-                                backgroundColor: Colors.white,
-                                child: IconButton(
-                                  icon: const Icon(
-                                    Icons.favorite_border,
-                                    color: Colors.red,
-                                  ),
-                                  onPressed: () {
-                                    controllerkoleksi.addKoleksi(
-                                      idUser,
-                                      buku.id.toString(),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
+                            // Positioned(
+                            //   top: 8,
+                            //   right: 8,
+                            //   child: CircleAvatar(
+                            //     backgroundColor: Colors.white,
+                            //     child: Obx(() {
+                            //       // Gunakan Obx agar UI terupdate otomatis
+                            //       bool isFavorite = controllerkoleksi
+                            //           .favoriteBookIds
+                            //           .contains(buku.id);
+                            //       return IconButton(
+                            //         icon: Icon(
+                            //           isFavorite
+                            //               ? Icons.favorite
+                            //               : Icons.favorite_border,
+                            //           color: Colors.red,
+                            //         ),
+                            //         onPressed: () {
+                            //           if (isFavorite) {
+                            //             controllerkoleksi.removeFromKoleksi(
+                            //               buku.id!,
+                            //             );
+                            //           } else {
+                            //             controllerkoleksi.addKoleksi(
+                            //               idUser,
+                            //               buku.id.toString(),
+                            //             );
+                            //           }
+                            //         },
+                            //       );
+                            //     }),
+                            //   ),
+                            // ),
                           ],
                         ),
                         Padding(

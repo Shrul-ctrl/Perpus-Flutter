@@ -34,6 +34,7 @@ class Bukus {
   int? harga;
   String? deskripsi;
   String? foto;
+  Null? filePath;
   int? idPenulis;
   int? idPenerbit;
   int? idKategori;
@@ -41,6 +42,7 @@ class Bukus {
   int? jumlahBuku;
   String? createdAt;
   String? updatedAt;
+  String? imageUrl;
   Kategori? kategori;
   Penuli? penuli;
   Penerbit? penerbit;
@@ -52,6 +54,7 @@ class Bukus {
       this.harga,
       this.deskripsi,
       this.foto,
+      this.filePath,
       this.idPenulis,
       this.idPenerbit,
       this.idKategori,
@@ -59,6 +62,7 @@ class Bukus {
       this.jumlahBuku,
       this.createdAt,
       this.updatedAt,
+      this.imageUrl,
       this.kategori,
       this.penuli,
       this.penerbit});
@@ -70,6 +74,7 @@ class Bukus {
     harga = json['harga'];
     deskripsi = json['deskripsi'];
     foto = json['foto'];
+    filePath = json['file_path'];
     idPenulis = json['id_penulis'];
     idPenerbit = json['id_penerbit'];
     idKategori = json['id_kategori'];
@@ -77,6 +82,7 @@ class Bukus {
     jumlahBuku = json['jumlah_buku'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    imageUrl = json['image_url'];
     kategori = json['kategori'] != null
         ? new Kategori.fromJson(json['kategori'])
         : null;
@@ -95,6 +101,7 @@ class Bukus {
     data['harga'] = this.harga;
     data['deskripsi'] = this.deskripsi;
     data['foto'] = this.foto;
+    data['file_path'] = this.filePath;
     data['id_penulis'] = this.idPenulis;
     data['id_penerbit'] = this.idPenerbit;
     data['id_kategori'] = this.idKategori;
@@ -102,6 +109,7 @@ class Bukus {
     data['jumlah_buku'] = this.jumlahBuku;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['image_url'] = this.imageUrl;
     if (this.kategori != null) {
       data['kategori'] = this.kategori!.toJson();
     }

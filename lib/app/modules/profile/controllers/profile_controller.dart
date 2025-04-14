@@ -8,7 +8,7 @@ class ProfileController extends GetxController {
   final _getConnect = GetConnect();
   final token = GetStorage().read('token');
   final isLoading = false.obs;
-  
+
   // Variabel untuk menyimpan profil
   var profile = Profiles().obs;
 
@@ -29,11 +29,9 @@ class ProfileController extends GetxController {
       if (response.statusCode == 200) {
         var profileResponse = ProfileResponse.fromJson(response.body);
         profile.value = profileResponse.profiles ?? Profiles();
-      } else {
-        print("Failed to load profile: ${response.statusText}");
       }
     } catch (e) {
-      print("Error: $e");
+      print("Error fetching profile: $e");
     } finally {
       isLoading(false);
     }
