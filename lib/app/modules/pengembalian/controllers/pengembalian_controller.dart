@@ -1,3 +1,5 @@
+import 'package:as_lib/app/modules/dashboard/views/daf_kembali_view.dart';
+import 'package:as_lib/app/modules/login/views/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -48,7 +50,7 @@ class PengembalianController extends GetxController {
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
-      Get.offAllNamed('/login'); // arahkan ke login jika token null
+      Get.to(() => LoginView());
       return;
     }
 
@@ -93,9 +95,6 @@ class PengembalianController extends GetxController {
         body: json.encode(body),
       );
 
-      print("Response Code: ${response.statusCode}");
-      print("Response Body: ${response.body}");
-
       if (response.statusCode == 201) {
         var data = json.decode(response.body);
         Get.snackbar(
@@ -105,8 +104,7 @@ class PengembalianController extends GetxController {
           colorText: Colors.white,
         );
 
-        /// ✅ Navigasi ke DafKembaliView & refresh otomatis
-        Get.offAllNamed('/daf_kembali', arguments: {"refresh": true});
+       Get.to(() => DafKembaliView() , arguments: {"refresh": true});
       } else {
         try {
           var errorData = json.decode(response.body);

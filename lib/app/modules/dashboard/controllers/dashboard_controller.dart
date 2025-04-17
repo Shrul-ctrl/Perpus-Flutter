@@ -67,35 +67,7 @@ class DashboardController extends GetxController {
     }
   }
 
-  // void logOut() async {
-  //   final response = await _getConnect.post(
-  //     BaseUrl.logout,
-  //     {},
-  //     headers: {'Authorization': "Bearer $token"},
-  //     contentType: "application/json",
-  //   );
-
-  //   if (response.statusCode == 200) {
-  //     Get.snackbar(
-  //       "Success",
-  //       "Logout Success",
-  //       snackPosition: SnackPosition.BOTTOM,
-  //       backgroundColor: Colors.green,
-  //       colorText: Colors.white,
-  //     );
-
-  //     GetStorage().erase();
-  //     Get.offAllNamed('/login');
-  //   } else {
-  //     Get.snackbar(
-  //       "Failed",
-  //       "Logout Failed",
-  //       snackPosition: SnackPosition.BOTTOM,
-  //       backgroundColor: Colors.red,
-  //       colorText: Colors.white,
-  //     );
-  //   }
-  // }
+  
 
   Future<DetailBukuResponse> getDetailBuku({required int id}) async {
     try {

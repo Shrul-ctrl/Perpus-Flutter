@@ -1,3 +1,4 @@
+import 'package:as_lib/app/modules/dashboard/views/cart_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -22,11 +23,28 @@ class YourLoanView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Riwayat Peminjaman & Pengembalian',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Image.network(
+            'http://127.0.0.1:8000/default/logo_sekolah.png',
+            width: 40,
+            height: 40,
+            errorBuilder: (context, error, stackTrace) {
+              return const Icon(Icons.image_not_supported);
+            },
+          ),
         ),
-        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.shopping_cart, color: Colors.black),
+            onPressed: () {
+              Get.to(() => CartView());
+            },
+          ),
+        ],
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -38,47 +56,68 @@ class YourLoanView extends StatelessWidget {
               height: 100,
               delegates: LottieDelegates(
                 values: [
-                  ValueDelegate.color(
-                    const ['**'],
-                    value: Colors.green,
-                  ),
+                  ValueDelegate.color(const ['**'], value: Colors.green),
                 ],
               ),
             ),
           );
         }
 
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              // 🔹 2 Card (Peminjaman & Pengembalian)
-              Row(
-                children: [
-                  _buildCard("Peminjaman", Icons.book, Colors.blue, () {
-                    Get.to(() => const DafPinjamView());
-                  }),
-                  const SizedBox(width: 10),
-                  _buildCard("Pengembalian", Icons.history, Colors.green, () {
-                    Get.to(() => const DafKembaliView());
-                  }),
-                ],
+        return Column(
+          children: [
+            // 🔹 Judul di bawah navbar
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              alignment: Alignment.center,
+              color: Colors.green,
+              child: const Text(
+                'Daftar Peminjaman & Pengembalian',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
-              const SizedBox(height: 20),
+            ),
 
-              // 🔹 Daftar Peminjaman & Pengembalian Terbaru (Limit 5)
-              Expanded(
-                child: ListView(
+            // 🔹 Konten utama
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
                   children: [
-                    _buildLatestList(
-                      "Peminjaman Terbaru",
-                      controller.peminjaman,
-                    )
+                    // 2 Card (Peminjaman & Pengembalian)
+                    Row(
+                      children: [
+                        _buildCard("Peminjaman", Icons.book, Colors.blue, () {
+                          Get.to(() => const DafPinjamView());
+                        }),
+                        const SizedBox(width: 10),
+                        _buildCard("Pengembalian", Icons.history, Colors.green,
+                            () {
+                          Get.to(() => const DafKembaliView());
+                        }),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+
+                    // List Terbaru
+                    Expanded(
+                      child: ListView(
+                        children: [
+                          _buildLatestList(
+                            "Peminjaman Terbaru",
+                            controller.peminjaman,
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         );
       }),
     );
@@ -131,15 +170,14 @@ class YourLoanView extends StatelessWidget {
           children: [
             Text(
               title,
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const Divider(),
             data.isEmpty
                 ? Center(
                     child: Text(
                       "Belum ada $title".toLowerCase(),
-                      style: TextStyle(color: Colors.grey),
+                      style: const TextStyle(color: Colors.grey),
                     ),
                   )
                 : Column(
@@ -161,7 +199,7 @@ class YourLoanView extends StatelessWidget {
                           ),
                           title: Text(
                             "No: ${item.noPeminjaman ?? '-'}",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           subtitle: Text(
                             "Status: ${item.statusPinjam ?? item.statusPengembalian ?? '-'}",
@@ -169,14 +207,13 @@ class YourLoanView extends StatelessWidget {
                           onTap: () {
                             if (title.contains("Pengembalian")) {
                               Get.to(
-                                () => DafKembaliView(),
+                                () => const DafKembaliView(),
                                 arguments: {
-                                  'status':
-                                      item.statusPengembalian ?? '-',
+                                  'status': item.statusPengembalian ?? '-',
                                 },
                               );
                             } else {
-                              Get.to(() => DafPinjamView());
+                              Get.to(() => const DafPinjamView());
                             }
                           },
                         ),

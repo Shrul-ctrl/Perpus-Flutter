@@ -45,7 +45,7 @@ class BookDetailView extends StatelessWidget {
                       'http://127.0.0.1:8000/img/${buku.foto}',
                       // 'http://192.168.1.7:8000/img/${buku.foto}',
                       fit: BoxFit.cover,
-                      height: 250,
+                      height: 300,
                       width: double.infinity,
                       errorBuilder: (context, error, stackTrace) {
                         return const SizedBox(

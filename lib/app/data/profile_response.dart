@@ -31,6 +31,7 @@ class Profiles {
   String? email;
   Null? emailVerifiedAt;
   String? isAdmin;
+  String? fotoprofile;
   String? createdAt;
   String? updatedAt;
   Siswa? siswa;
@@ -42,6 +43,7 @@ class Profiles {
       this.email,
       this.emailVerifiedAt,
       this.isAdmin,
+      this.fotoprofile,
       this.createdAt,
       this.updatedAt,
       this.siswa});
@@ -53,6 +55,7 @@ class Profiles {
     email = json['email'];
     emailVerifiedAt = json['email_verified_at'];
     isAdmin = json['isAdmin'];
+    fotoprofile = json['fotoprofile'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     siswa = json['siswa'] != null ? new Siswa.fromJson(json['siswa']) : null;
@@ -66,6 +69,7 @@ class Profiles {
     data['email'] = this.email;
     data['email_verified_at'] = this.emailVerifiedAt;
     data['isAdmin'] = this.isAdmin;
+    data['fotoprofile'] = this.fotoprofile;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     if (this.siswa != null) {
