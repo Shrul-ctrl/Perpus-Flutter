@@ -34,7 +34,7 @@
 
 
 class BaseUrl {
-  static const String baseUrl = 'http://127.0.0.1:8000/api/';
+  static const String baseUrl = 'http://192.168.43.126:8000/api/';
   static String login = '${baseUrl}login';
   static String register = '${baseUrl}register';
   static String logout = '${baseUrl}logout';
