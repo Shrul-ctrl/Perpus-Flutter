@@ -86,7 +86,7 @@ class BookDetailView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              _buildDetailRow('ISBN', buku.isbn.toString()),
+              _buildDetailRow('ISBN', buku.isbn),
               _buildDetailRow('Deskripsi', buku.deskripsi),
               _buildDetailRow('Penulis', buku.penuli?.namaPenulis),
               _buildDetailRow('Penerbit', buku.penerbit?.namaPenerbit),

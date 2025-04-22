@@ -31,26 +31,20 @@ class Peminjamans {
   int? id;
   String? noPeminjaman;
   int? idUser;
-  int? idStaff;
-  int? idSiswa;
   String? tanggalPinjam;
   String? batasPinjam;
   String? statusPinjam;
-  Null? alasanPinjam;
   String? createdAt;
   String? updatedAt;
   List<PeminjamanDetails>? peminjamanDetails;
 
   Peminjamans(
       {this.id,
-      this.noPeminjaman,  
+      this.noPeminjaman,
       this.idUser,
-      this.idStaff,
-      this.idSiswa,
       this.tanggalPinjam,
       this.batasPinjam,
       this.statusPinjam,
-      this.alasanPinjam,
       this.createdAt,
       this.updatedAt,
       this.peminjamanDetails});
@@ -59,12 +53,9 @@ class Peminjamans {
     id = json['id'];
     noPeminjaman = json['no_peminjaman'];
     idUser = json['id_user'];
-    idStaff = json['id_staff'];
-    idSiswa = json['id_siswa'];
     tanggalPinjam = json['tanggal_pinjam'];
     batasPinjam = json['batas_pinjam'];
     statusPinjam = json['status_pinjam'];
-    alasanPinjam = json['alasan_pinjam'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     if (json['peminjaman_details'] != null) {
@@ -80,12 +71,9 @@ class Peminjamans {
     data['id'] = this.id;
     data['no_peminjaman'] = this.noPeminjaman;
     data['id_user'] = this.idUser;
-    data['id_staff'] = this.idStaff;
-    data['id_siswa'] = this.idSiswa;
     data['tanggal_pinjam'] = this.tanggalPinjam;
     data['batas_pinjam'] = this.batasPinjam;
     data['status_pinjam'] = this.statusPinjam;
-    data['alasan_pinjam'] = this.alasanPinjam;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     if (this.peminjamanDetails != null) {
@@ -142,10 +130,11 @@ class PeminjamanDetails {
 class Buku {
   int? id;
   String? judul;
-  int? isbn;
+  String? isbn;
   int? harga;
   String? deskripsi;
   String? foto;
+  String? filePath;
   int? idPenulis;
   int? idPenerbit;
   int? idKategori;
@@ -161,6 +150,7 @@ class Buku {
       this.harga,
       this.deskripsi,
       this.foto,
+      this.filePath,
       this.idPenulis,
       this.idPenerbit,
       this.idKategori,
@@ -176,6 +166,7 @@ class Buku {
     harga = json['harga'];
     deskripsi = json['deskripsi'];
     foto = json['foto'];
+    filePath = json['file_path'];
     idPenulis = json['id_penulis'];
     idPenerbit = json['id_penerbit'];
     idKategori = json['id_kategori'];
@@ -193,6 +184,7 @@ class Buku {
     data['harga'] = this.harga;
     data['deskripsi'] = this.deskripsi;
     data['foto'] = this.foto;
+    data['file_path'] = this.filePath;
     data['id_penulis'] = this.idPenulis;
     data['id_penerbit'] = this.idPenerbit;
     data['id_kategori'] = this.idKategori;

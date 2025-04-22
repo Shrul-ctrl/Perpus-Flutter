@@ -25,10 +25,11 @@ class DetailBukuResponse {
 class Data {
   int? id;
   String? judul;
-  int? isbn;
+  String? isbn;
   int? harga;
   String? deskripsi;
   String? foto;
+  String? filePath;
   int? idPenulis;
   int? idPenerbit;
   int? idKategori;
@@ -47,6 +48,7 @@ class Data {
       this.harga,
       this.deskripsi,
       this.foto,
+      this.filePath,
       this.idPenulis,
       this.idPenerbit,
       this.idKategori,
@@ -65,6 +67,7 @@ class Data {
     harga = json['harga'];
     deskripsi = json['deskripsi'];
     foto = json['foto'];
+    filePath = json['file_path'];
     idPenulis = json['id_penulis'];
     idPenerbit = json['id_penerbit'];
     idKategori = json['id_kategori'];
@@ -90,6 +93,7 @@ class Data {
     data['harga'] = this.harga;
     data['deskripsi'] = this.deskripsi;
     data['foto'] = this.foto;
+    data['file_path'] = this.filePath;
     data['id_penulis'] = this.idPenulis;
     data['id_penerbit'] = this.idPenerbit;
     data['id_kategori'] = this.idKategori;

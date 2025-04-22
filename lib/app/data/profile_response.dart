@@ -29,7 +29,7 @@ class Profiles {
   String? name;
   int? isActivated;
   String? email;
-  Null? emailVerifiedAt;
+  String? emailVerifiedAt;
   String? isAdmin;
   String? fotoprofile;
   String? createdAt;

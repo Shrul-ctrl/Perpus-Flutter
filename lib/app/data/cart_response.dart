@@ -1,13 +1,9 @@
 class CartResponse {
-  bool? success;
-  String? message;
   List<Carts>? carts;
 
-  CartResponse({this.success, this.message, this.carts});
+  CartResponse({this.carts});
 
   CartResponse.fromJson(Map<String, dynamic> json) {
-    success = json['success'];
-    message = json['message'];
     if (json['carts'] != null) {
       carts = <Carts>[];
       json['carts'].forEach((v) {
@@ -18,8 +14,6 @@ class CartResponse {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['message'] = this.message;
     if (this.carts != null) {
       data['carts'] = this.carts!.map((v) => v.toJson()).toList();
     }
@@ -83,6 +77,7 @@ class User {
   String? email;
   String? emailVerifiedAt;
   String? isAdmin;
+  String? fotoprofile;
   String? createdAt;
   String? updatedAt;
 
@@ -93,6 +88,7 @@ class User {
       this.email,
       this.emailVerifiedAt,
       this.isAdmin,
+      this.fotoprofile,
       this.createdAt,
       this.updatedAt});
 
@@ -103,6 +99,7 @@ class User {
     email = json['email'];
     emailVerifiedAt = json['email_verified_at'];
     isAdmin = json['isAdmin'];
+    fotoprofile = json['fotoprofile'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -115,6 +112,7 @@ class User {
     data['email'] = this.email;
     data['email_verified_at'] = this.emailVerifiedAt;
     data['isAdmin'] = this.isAdmin;
+    data['fotoprofile'] = this.fotoprofile;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;
@@ -124,10 +122,11 @@ class User {
 class Buku {
   int? id;
   String? judul;
-  int? isbn;
+  String? isbn;
   int? harga;
   String? deskripsi;
   String? foto;
+  String? filePath;
   int? idPenulis;
   int? idPenerbit;
   int? idKategori;
@@ -143,6 +142,7 @@ class Buku {
       this.harga,
       this.deskripsi,
       this.foto,
+      this.filePath,
       this.idPenulis,
       this.idPenerbit,
       this.idKategori,
@@ -158,6 +158,7 @@ class Buku {
     harga = json['harga'];
     deskripsi = json['deskripsi'];
     foto = json['foto'];
+    filePath = json['file_path'];
     idPenulis = json['id_penulis'];
     idPenerbit = json['id_penerbit'];
     idKategori = json['id_kategori'];
@@ -175,6 +176,7 @@ class Buku {
     data['harga'] = this.harga;
     data['deskripsi'] = this.deskripsi;
     data['foto'] = this.foto;
+    data['file_path'] = this.filePath;
     data['id_penulis'] = this.idPenulis;
     data['id_penerbit'] = this.idPenerbit;
     data['id_kategori'] = this.idKategori;

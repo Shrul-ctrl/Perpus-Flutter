@@ -30,11 +30,11 @@ class BukuResponse {
 class Bukus {
   int? id;
   String? judul;
-  int? isbn;
+  String? isbn;
   int? harga;
   String? deskripsi;
   String? foto;
-  Null? filePath;
+  String? filePath;
   int? idPenulis;
   int? idPenerbit;
   int? idKategori;
