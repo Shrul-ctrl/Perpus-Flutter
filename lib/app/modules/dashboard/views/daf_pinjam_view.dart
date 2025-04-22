@@ -47,12 +47,20 @@ class DafPinjamView extends GetView<DashboardController> {
           if (controller.peminjaman.isEmpty) {
             return _emptyState();
           }
-          return ListView.builder(
-            itemCount: controller.peminjaman.length,
-            itemBuilder: (context, index) {
-              final peminjaman = controller.peminjaman[index];
-              return LoanCard(peminjaman: peminjaman);
+
+          // Membungkus ListView dengan RefreshIndicator
+          return RefreshIndicator(
+            onRefresh: () async {
+              // Panggil fungsi untuk mengambil ulang data peminjaman
+              await controller.refresh();
             },
+            child: ListView.builder(
+              itemCount: controller.peminjaman.length,
+              itemBuilder: (context, index) {
+                final peminjaman = controller.peminjaman[index];
+                return LoanCard(peminjaman: peminjaman);
+              },
+            ),
           );
         }),
       ),
@@ -75,6 +83,7 @@ class DafPinjamView extends GetView<DashboardController> {
     );
   }
 }
+
 
 class LoanCard extends StatelessWidget {
   final dynamic peminjaman;

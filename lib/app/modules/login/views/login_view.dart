@@ -12,205 +12,211 @@ class LoginView extends GetView<LoginController> {
     final LoginController controller = Get.put(LoginController());
 
     return Scaffold(
-      body: Stack(
-        children: [
-          // Gradient background
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.green.shade800,
-                  Colors.green.shade500,
-                  Colors.teal.shade300,
-                ],
-              ),
-            ),
-          ),
-
-          // Hexagon background
-          CustomPaint(size: Size.infinite, painter: HexagonBackgroundPainter()),
-
-          // ✅ ONLY ONE: Container abu-abu belakang dengan radius
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              width:
-                  double.infinity, // ⬅️ Ini penting biar container full width
-              height: 450,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(32),
-                  topRight: Radius.circular(32),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Login to your account",
-                      style: GoogleFonts.poppins(
-                        fontSize: 20,
-                        color: Colors.grey.shade800,
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Stack(
+                    children: [
+                      // Gradient background
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Colors.green.shade900,
+                              Colors.green.shade500,
+                              Colors.teal.shade800,
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                    // Tambahkan widget lainnya di bawah sini
-                  ],
-                ),
-              ),
-            ),
-          ),
 
-          // Main content
-          Column(
-            children: [
-              const SizedBox(height: 60),
-              Text(
-                "As-Library",
-                style: GoogleFonts.poppins(
-                  fontSize: 40,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 175),
-
-              // ✅ Container putih di atas abu-abu
-              Expanded(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 30,
-                    ),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(32),
-                        topRight: Radius.circular(32),
+                      // Hexagon background
+                      CustomPaint(
+                        size: Size.infinite,
+                        painter: HexagonBackgroundPainter(),
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 15,
-                          offset: Offset(0, -5),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // 🔐 Email Input dengan shadow
-                        Material(
-                          elevation: 3,
-                          shadowColor: Colors.black12,
-                          borderRadius: BorderRadius.circular(12),
-                          child: TextField(
-                            controller: controller.emailController,
-                            decoration: InputDecoration(
-                              labelText: 'Email',
-                              prefixIcon: const Icon(Icons.email_outlined),
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.green.shade600,
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.grey.shade300,
-                                  width: 1.5,
-                                ),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
+
+                      // ✅ Main Column UI
+                      // ganti bagian dalam Column
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "As-Library",
+                            style: GoogleFonts.poppins(
+                              fontSize: 80,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
                             ),
                           ),
-                        ),
-
-                        const SizedBox(height: 25),
-
-                        // 🔒 Password Input dengan shadow
-                        Material(
-                          elevation: 3,
-                          shadowColor: Colors.black12,
-                          borderRadius: BorderRadius.circular(12),
-                          child: TextField(
-                            controller: controller.passwordController,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              labelText: 'Password',
-                              prefixIcon: const Icon(Icons.lock_outline),
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.green.shade600,
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.grey.shade300,
-                                  width: 1.5,
-                                ),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
+                          const SizedBox(height: 8),
+                          Text(
+                            "Perpustakaan Digital",
+                            style: GoogleFonts.poppins(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white70,
                             ),
                           ),
-                        ),
+                          const SizedBox(height: 40),
 
-                        const SizedBox(height: 45),
-
-                        // ✅ Login Button dengan shadow
-                        SizedBox(
-                          width: double.infinity,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              controller.loginNow();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green.shade600,
-                              elevation: 8,
-                              shadowColor: Colors.green.withOpacity(0.4),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
+                          // ✅ Container Login jadi satu & setengah layar
+                          Container(
+                            width: double.infinity,
+                            height: MediaQuery.of(context).size.height * 0.5,
+                            margin: const EdgeInsets.symmetric(horizontal: 24),
+                            padding: EdgeInsets.only(
+                              top: 20,
+                              left: 20,
+                              right: 20,
+                              bottom:
+                                  MediaQuery.of(context).viewInsets.bottom + 20,
                             ),
-                            child: const Text(
-                              "LOGIN",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Center(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        "Masuk ke akun Anda",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 22,
+                                          color: Colors.grey.shade800,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      const Divider(
+                                        thickness: 4,
+                                        indent: 100,
+                                        endIndent: 100,
+                                        color: Colors.green,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                const SizedBox(height: 20),
+
+                                // Email
+                                // Email
+                                Material(
+                                  elevation: 3,
+                                  shadowColor: Colors.black12,
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: TextField(
+                                    controller: controller.emailController,
+                                    decoration: InputDecoration(
+                                      labelText: 'Email',
+                                      labelStyle: TextStyle(
+                                        color: Colors.green.shade800,
+                                      ),
+                                      prefixIcon: Icon(
+                                        Icons.email_outlined,
+                                        color: Colors.green.shade800,
+                                      ),
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.green.shade700,
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    ),
+                                    cursorColor: Colors.green.shade800,
+                                  ),
+                                ),
+
+                                const SizedBox(height: 15),
+
+                                // Password
+                                Material(
+                                  elevation: 3,
+                                  shadowColor: Colors.black12,
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: TextField(
+                                    controller: controller.passwordController,
+                                    obscureText: true,
+                                    decoration: InputDecoration(
+                                      labelText: 'Password',
+                                      labelStyle: TextStyle(
+                                        color: Colors.green.shade800,
+                                      ),
+                                      prefixIcon: Icon(
+                                        Icons.lock_outline,
+                                        color: Colors.green.shade800,
+                                      ),
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.green.shade700,
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    ),
+                                    cursorColor: Colors.green.shade800,
+                                  ),
+                                ),
+
+                                const SizedBox(height: 24),
+
+                                // Tombol Login (diubah jaraknya, jangan pakai Spacer)
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 45,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      controller.loginNow();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.green.shade600,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      "LOGIN",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
-        ],
+            );
+          },
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:as_lib/app/modules/cart/controllers/cart_controller.dart';
 import 'package:as_lib/app/modules/dashboard/views/cart_view.dart';
+import 'package:as_lib/app/utils/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:as_lib/app/data/buku_response.dart';
@@ -42,10 +43,10 @@ class BookDetailView extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: Image.network(
-                      'http://127.0.0.1:8000/img/${buku.foto}',
+                      '${BaseUrl.imagePath}/${buku.foto}',
                       // 'http://192.168.1.7:8000/img/${buku.foto}',
                       fit: BoxFit.cover,
-                      height: 300,
+                      height: 500,
                       width: double.infinity,
                       errorBuilder: (context, error, stackTrace) {
                         return const SizedBox(

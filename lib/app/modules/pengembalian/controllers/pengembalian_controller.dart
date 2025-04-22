@@ -1,5 +1,6 @@
 import 'package:as_lib/app/modules/dashboard/views/daf_kembali_view.dart';
 import 'package:as_lib/app/modules/login/views/login_view.dart';
+import 'package:as_lib/app/utils/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -54,7 +55,7 @@ class PengembalianController extends GetxController {
       return;
     }
 
-    String url = 'http://127.0.0.1:8000/api/pengembalian/create';
+      String url = BaseUrl.addpengembalian;
 
     Map<String, dynamic> body = {
       "no_peminjaman": noPeminjaman.value,

@@ -83,6 +83,10 @@ class DashboardController extends GetxController {
     }
   }
 
+    Future<void> refresh() async {
+    await getPeminjaman();  // Panggil ulang untuk mendapatkan data terbaru
+  }
+
   @override
   void onInit() {
     getBuku();

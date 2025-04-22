@@ -1,3 +1,4 @@
+import 'package:as_lib/app/utils/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -79,7 +80,7 @@ class ProfileView extends StatelessWidget {
                               radius: 45,
                               backgroundImage: profile.fotoprofile != null
                                   ? NetworkImage(
-                                      'http://127.0.0.1:8000/profile/${profile.fotoprofile}',
+                                      '${BaseUrl.profilePath}/${profile.fotoprofile}',
                                     )
                                   : const AssetImage('assets/profile.jpg')
                                       as ImageProvider,
@@ -99,7 +100,6 @@ class ProfileView extends StatelessWidget {
                     ),
 
                     const SizedBox(height: 10),
-
                     const Center(
                       child: Icon(Icons.keyboard_arrow_down, color: Colors.green),
                     ),

@@ -1,56 +1,66 @@
 // class BaseUrl {
-//   static String login = 'http://192.168.1.7:8000/api/login';
-//   static String register = 'http://192.168.1.7:8000/api/register';
-//   static String logout = 'http://192.168.1.7:8000/api/logout';
-//   static String buku = 'http://192.168.1.7:8000/api/buku';
-//   static String detailBukus = 'http://192.168.1.7:8000/api/buku';
-//   static String deleteBukus = 'http://192.168.1.7:8000/api/buku';
-//   static String profile = 'http://192.168.1.7:8000/api/profile';
+//   static const String baseUrl = 'http://192.168.1.5:8000/api/';
+//   static String login = '${baseUrl}login';
+//   static String register = '${baseUrl}register';
+//   static String logout = '${baseUrl}logout';
+//   static String buku = '${baseUrl}buku';
+//   static String detailBukus = '${baseUrl}buku';
+//   static String deleteBukus = '${baseUrl}buku';
+//   static String profile = '${baseUrl}profile';
 
-//   static String pengembalian = 'http://192.168.1.7:8000/api/pengembalian';
-//   static String addpengembalian = 'http://192.168.1.7:8000/api/pengembalian/create';
+//   static String pengembalian = '${baseUrl}pengembalian';
+//   static String addpengembalian = '${baseUrl}pengembalian/create';
 
-//   static String peminjaman = 'http://192.168.1.7:8000/api/peminjaman';
-//   static String addpeminjaman = 'http://192.168.1.7:8000/api/peminjaman/create';
+//   static String peminjaman = '${baseUrl}peminjaman';
+//   static String addpeminjaman = '${baseUrl}peminjaman/create';
 
-//   static String cart = 'http://192.168.1.7:8000/api/cart';
-//   static String addcart = 'http://192.168.1.7:8000/api/cart/create';
-//   static String editcart = 'http://192.168.1.7:8000/api/cart/update';
-//   static String deletecart = 'http://192.168.1.7:8000/api/cart/delete';
+//   static String cart = '${baseUrl}cart';
+//   static String addcart = '${baseUrl}cart/create';
+//   static String editcart = '${baseUrl}cart/update';
+//   static String deletecart = '${baseUrl}cart/delete';
 
-//   static String koleksi = 'http://192.168.1.7:8000/api/koleksi';
-//   static String addkoleksi = 'http://192.168.1.7:8000/api/koleksi/create';
-//   static String deletekoleksi = 'http://192.168.1.7:8000/api/koleksi/delete';
+//   static String koleksi = '${baseUrl}koleksi';
+//   static String addkoleksi = '${baseUrl}koleksi/create';
+//   static String deletekoleksi = '${baseUrl}koleksi/delete';
 
-//   static String riwayat = 'http://192.168.1.7:8000/api/riwayat';
+//   static String riwayat = '${baseUrl}riwayat';
   
+//   static const String imagePath = '${baseUrl}img';
+//   static const String logoPath = '${baseUrl}default';
+//   static const String profilePath = '${baseUrl}profile';
 // }
 
+
+
+
 class BaseUrl {
-  static String login = 'http://127.0.0.1:8000/api/login';
-  static String register = 'http://127.0.0.1:8000/api/register';
-  static String logout = 'http://127.0.0.1:8000/api/logout';
-  static String buku = 'http://127.0.0.1:8000/api/buku';
-  static String detailBukus = 'http://127.0.0.1:8000/api/buku';
-  static String deleteBukus = 'http://127.0.0.1:8000/api/buku';
-  static String profile = 'http://127.0.0.1:8000/api/profile';
+  static const String baseUrl = 'http://127.0.0.1:8000/api/';
+  static String login = '${baseUrl}login';
+  static String register = '${baseUrl}register';
+  static String logout = '${baseUrl}logout';
+  static String buku = '${baseUrl}buku';
+  static String detailBukus = '${baseUrl}buku';
+  static String deleteBukus = '${baseUrl}buku';
+  static String profile = '${baseUrl}profile';
 
-  static String pengembalian = 'http://127.0.0.1:8000/api/pengembalian';
-  static String addpengembalian = 'http://127.0.0.1:8000/api/pengembalian/create';
+  static String pengembalian = '${baseUrl}pengembalian';
+  static String addpengembalian = '${baseUrl}pengembalian/create';
 
-  static String peminjaman = 'http://127.0.0.1:8000/api/peminjaman';
-  static String addpeminjaman = 'http://127.0.0.1:8000/api/peminjaman/create';
+  static String peminjaman = '${baseUrl}peminjaman';
+  static String addpeminjaman = '${baseUrl}peminjaman/create';
 
-  static String cart = 'http://127.0.0.1:8000/api/cart';
-  static String addcart = 'http://127.0.0.1:8000/api/cart/create';
-  static String editcart = 'http://127.0.0.1:8000/api/cart/update';
-  static String deletecart = 'http://127.0.0.1:8000/api/cart/delete';
+  static String cart = '${baseUrl}cart';
+  static String addcart = '${baseUrl}cart/create';
+  static String editcart = '${baseUrl}cart/update';
+  static String deletecart = '${baseUrl}cart/delete';
 
-  static String koleksi = 'http://127.0.0.1:8000/api/koleksi';
-  static String addkoleksi = 'http://127.0.0.1:8000/api/koleksi/create';
-  static String deletekoleksi = 'http://127.0.0.1:8000/api/koleksi/delete';
+  static String koleksi = '${baseUrl}koleksi';
+  static String addkoleksi = '${baseUrl}koleksi/create';
+  static String deletekoleksi = '${baseUrl}koleksi/delete';
 
-  static String riwayat = 'http://127.0.0.1:8000/api/riwayat';
-}
-
+  static String riwayat = '${baseUrl}riwayat';
   
+  static const String imagePath = '${baseUrl}img';
+  static const String logoPath = '${baseUrl}default';
+  static const String profilePath = '${baseUrl}profile';
+}

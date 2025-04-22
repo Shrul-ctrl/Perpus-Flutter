@@ -40,10 +40,10 @@ class HomeView extends GetView<HomeController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'As-Lib',
+                      'As-Library',
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
-                          fontSize: 45,
+                          fontSize: 50,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                           letterSpacing: 2,
@@ -62,7 +62,7 @@ class HomeView extends GetView<HomeController> {
                       'Aplikasi Perpustakaan Digital',
                       style: GoogleFonts.poppins(
                         textStyle: const TextStyle(
-                          fontSize: 15,
+                          fontSize: 20,
                           fontWeight: FontWeight.w400,
                           color: Colors.white70,
                         ),
